@@ -1,12 +1,29 @@
 Modpack - 3d Armor [0.4.4]
 ==========================
 
-[mod] Visible Player Armor [3d_armor]
--------------------------------------
+[mod] Multi Skins [multiskin]
+-----------------------------
 
 depends: default
 
-recommends: inventory_plus or unified_inventory (use only one)
+Common multi-layer player texturing api used by the modpack.
+
+Compatible with the following skin changing mods:
+
+	[player_textures] by PilzAdam
+	*[simple_skins] by TenPlus1
+	[skins] by Zeg9
+	[u_skins] by SmallJoker
+	[wardrobe] by prestidigitator
+
+* requires patch https://gist.github.com/stujones11/8a8669d12b2d2c69400c
+
+[mod] Visible Player Armor [3d_armor]
+-------------------------------------
+
+depends: multiskin
+
+recommends: unified_inventory, inventory_plus or inventory_enhanced (use only one)
 
 Adds craftable armor that is visible to other players. Each armor item worn contributes to
 a player's armor group level making them less vulnerable to weapons.
@@ -19,16 +36,13 @@ Fire protection has been added by TenPlus1 and in use when ethereal mod is found
 armor has been enabled.  each piece of armor offers 1 fire protection, level 1 protects
 against torches, level 2 against crystal spikes, 3 for fire and 5 protects when in lava.
 
-Compatible with player skins [skins] by Zeg9 and Player Textures [player_textures] by PilzAdam
-and [simple_skins] by TenPlus1.
-
 Armor can be configured by adding a file called armor.conf in 3d_armor mod or world directory.
 see armor.conf.example for all available options.
 
 [mod] Visible Wielded Items [wieldview]
 ---------------------------------------
 
-depends: 3d_armor
+depends: multiskin
 
 Makes hand wielded items visible to other players.
 

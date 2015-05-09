@@ -1,7 +1,7 @@
 [mod] Visible Player Armor [3d_armor]
 =====================================
 
-Depends: default
+Depends: multiskin
 
 Recommends: inventory_plus or unified_inventory (use only one)
 
