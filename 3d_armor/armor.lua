@@ -122,6 +122,10 @@ elseif minetest.get_modpath("inventory_enhanced") then
 	inv_mod = "inventory_enhanced"
 end
 
+armor.update_player_visuals = function(self, player)
+	multiskin:update_player_visuals(player)
+end
+
 armor.set_player_armor = function(self, player)
 	local name, player_inv = armor:get_valid_player(player, "[set_player_armor]")
 	if not name then
