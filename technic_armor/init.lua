@@ -111,7 +111,7 @@ for k, v in pairs(stats) do
 	end
 end
 
-local rad_dmg_change = technic.register_on_radiation_damaging
+local rad_dmg_change = technic.register_on_radiation_damage
 if not rad_dmg_change then
 	-- maybe damage disabled
 	return
