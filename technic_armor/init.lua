@@ -1,11 +1,11 @@
 local shields = minetest.get_modpath("shields") and true
 
 local stats = {
-	lead = { name="Lead", armor=2, heal=0, use=100 },
-	brass = { name="Brass", armor=1.8, heal=0, use=650 },
-	cast = { name="Cast Iron", armor=2.5, heal=8, use=200 },
-	carbon = { name="Carbon Steel", armor=2.7, heal=10, use=100 },
-	stainless = { name="Stainless Steel", armor=2.7, heal=10, use=75 },
+	lead = { name="Lead", armor=2, heal=0, use=100, fire=0.8 },
+	brass = { name="Brass", armor=1.8, heal=0, use=650, fire=0 },
+	cast = { name="Cast Iron", armor=2.5, heal=8, use=200, fire=0 },
+	carbon = { name="Carbon Steel", armor=2.7, heal=10, use=100, fire=0 },
+	stainless = { name="Stainless Steel", armor=2.7, heal=10, use=75, fire=0 },
 }
 local mats = {
 	lead="technic:lead_ingot",
@@ -15,45 +15,47 @@ local mats = {
 	stainless="technic:stainless_steel_ingot",
 }
 if minetest.get_modpath("moreores") then
-	stats.tin = { name="Tin", armor=1.6, heal=0, use=750 }
-	stats.silver = { name="Silver", armor=1.8, heal=6, use=650 }
+	stats.tin = { name="Tin", armor=1.6, heal=0, use=750, fire=0 }
+	stats.silver = { name="Silver", armor=1.8, heal=6, use=650, fire=0 }
 	mats.tin = "moreores:tin_ingot"
 	mats.silver = "moreores:silver_ingot"
 end
 
 for k, v in pairs(stats) do
 	local mat = mats[k]
-	local rad_resist = technic.get_node_radiation_resistance(mat)
+	local rad_resist = 0
+	if technic.get_node_radiation_resistance then
+		rad_resist = technic.get_node_radiation_resistance(mat)
+	end
 
 	minetest.register_tool("technic_armor:helmet_"..k, {
 		description = v.name.." Helmet",
 		inventory_image = "technic_armor_inv_helmet_"..k..".png",
-		groups = {armor_head=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use},
+		groups = {armor_head=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use, armor_fire=v.fire},
 		wear = 0,
 		radiation_resistance = rad_resist*5/9
 	})
 	minetest.register_tool("technic_armor:chestplate_"..k, {
 		description = v.name.." Chestplate",
 		inventory_image = "technic_armor_inv_chestplate_"..k..".png",
-		groups = {armor_torso=math.floor(8*v.armor), armor_heal=v.heal, armor_use=v.use},
+		groups = {armor_torso=math.floor(8*v.armor), armor_heal=v.heal, armor_use=v.use, armor_fire=v.fire},
 		wear = 0,
 		radiation_resistance = rad_resist*8/9
 	})
 	minetest.register_tool("technic_armor:leggings_"..k, {
 		description = v.name.." Leggings",
 		inventory_image = "technic_armor_inv_leggings_"..k..".png",
-		groups = {armor_legs=math.floor(7*v.armor), armor_heal=v.heal, armor_use=v.use},
+		groups = {armor_legs=math.floor(7*v.armor), armor_heal=v.heal, armor_use=v.use, armor_fire=v.fire},
 		wear = 0,
 		radiation_resistance = rad_resist*7/9
 	})
 	minetest.register_tool("technic_armor:boots_"..k, {
 		description = v.name.." Boots",
 		inventory_image = "technic_armor_inv_boots_"..k..".png",
-		groups = {armor_feet=math.floor(4*v.armor), armor_heal=v.heal, armor_use=v.use},
+		groups = {armor_feet=math.floor(4*v.armor), armor_heal=v.heal, armor_use=v.use, armor_fire=v.fire},
 		wear = 0,
 		radiation_resistance = rad_resist*4/9
 	})
-
 
 	v = mat
 
@@ -94,7 +96,7 @@ for k, v in pairs(stats) do
 		minetest.register_tool("technic_armor:shield_"..k, {
 			description = v.name.." Shield",
 			inventory_image = "technic_armor_inv_shield_"..k..".png",
-			groups = {armor_shield=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use},
+			groups = {armor_shield=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use, armor_fire=v.fire},
 			wear = 0,
 			radiation_resistance = rad_resist*6/9
 		})
