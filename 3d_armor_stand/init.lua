@@ -12,8 +12,8 @@ local armor_stand_formspec = "size[8,7.5]" ..
 local function update_entity(pos)
 	local object = nil
 	local node = minetest.get_node(pos)
-	local objects = minetest.get_objects_inside_radius(pos, 1)
-	for _, obj in ipairs(objects) do
+	local objects = minetest.get_objects_inside_radius(pos, 1) or {}
+	for _, obj in pairs(objects) do
 		local ent = obj:get_luaentity()
 		if ent then
 			if ent.name == "3d_armor_stand:armor_entity" then
@@ -57,11 +57,11 @@ local function update_entity(pos)
 		if node.param2 then
 			local rot = node.param2 % 4
 			if rot == 1 then
-				yaw = (3 * math.pi / 2)
+				yaw = 3 * math.pi / 2
 			elseif rot == 2 then
 				yaw = math.pi
 			elseif rot == 3 then
-				yaw = (math.pi / 2)
+				yaw = math.pi / 2
 			end
 		end
 		object:setyaw(yaw)
@@ -81,7 +81,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		type = "fixed",
 		fixed = {-0.5,-0.5,-0.5, 0.5,1.5,0.5}
 	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	groups = {choppy=2, oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -95,7 +95,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("armor")
 	end,
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
+	after_place_node = function(pos)
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
 	end,
 	on_metadata_inventory_move = function(pos)
@@ -107,7 +107,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
     on_metadata_inventory_take = function(pos)
 		update_entity(pos)
 	end,
-	after_destruct = function(pos, oldnode)
+	after_destruct = function(pos)
 		update_entity(pos)
 	end,
 })
@@ -118,10 +118,8 @@ minetest.register_entity("3d_armor_stand:armor_entity", {
 	mesh = "3d_armor_entity.obj",
 	visual_size = {x=1, y=1},
 	collisionbox = {-0.3,-0.3,-0.3, 0.3,1.5,0.3},
-	textures = {
-		"3d_armor_trans.png",
-	},
-	on_activate = function(self, staticdata)
+	textures = {"3d_armor_trans.png"},
+	on_activate = function(self)
 		local pos = self.object:getpos()
 		update_entity(pos)
 	end,
@@ -135,3 +133,4 @@ minetest.register_craft({
 		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
 	}
 })
+
