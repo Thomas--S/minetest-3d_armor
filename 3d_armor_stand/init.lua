@@ -59,7 +59,7 @@ local function update_entity(pos)
 			if rot == 1 then
 				yaw = (3 * math.pi / 2)
 			elseif rot == 2 then
-				yaw = (2 * math.pi / 2)
+				yaw = (math.pi)
 			elseif rot == 3 then
 				yaw = (math.pi / 2)
 			end
