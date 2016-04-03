@@ -76,6 +76,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	tiles = {"default_wood.png", "default_steel_block.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	walkable = false,
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.5,-0.5,-0.5, 0.5,1.5,0.5}
@@ -92,7 +93,6 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		meta:set_string("infotext", "Armor Stand")
 		local inv = meta:get_inventory()
 		inv:set_size("armor", 6)
-		print(dump(current_player))
 	end,
 	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
