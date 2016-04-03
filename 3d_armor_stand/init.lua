@@ -59,7 +59,7 @@ local function update_entity(pos)
 			if rot == 1 then
 				yaw = (3 * math.pi / 2)
 			elseif rot == 2 then
-				yaw = (math.pi)
+				yaw = math.pi
 			elseif rot == 3 then
 				yaw = (math.pi / 2)
 			end
@@ -78,10 +78,6 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	paramtype2 = "facedir",
 	walkable = false,
 	selection_box = {
-		type = "fixed",
-		fixed = {-0.5,-0.5,-0.5, 0.5,1.5,0.5}
-	},
-	collision_box = {
 		type = "fixed",
 		fixed = {-0.5,-0.5,-0.5, 0.5,1.5,0.5}
 	},
