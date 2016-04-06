@@ -44,8 +44,8 @@ local function update_entity(pos)
 			for i=1, 4 do
 				local stack = inv:get_stack("armor", i)
 				if stack:get_count() == 1 then
-					local item = stack:get_name()
-					local def = stack:get_definition()
+					local item = stack:get_name() or ""
+					local def = stack:get_definition() or {}
 					local texture = def.texture or item:gsub("%:", "_")
 					table.insert(textures, texture..".png")
 				end
