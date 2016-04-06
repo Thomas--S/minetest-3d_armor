@@ -1,11 +1,11 @@
-local armor_stand_formspec = "size[8,7.5]" ..
+local armor_stand_formspec = "size[8,7]" ..
 	default.gui_bg ..
 	default.gui_bg_img ..
 	default.gui_slots ..
-	default.get_hotbar_bg(0,3.5) ..
-	"list[current_name;armor;3,0;2,3;]" ..
-	"list[current_player;main;0,3.5;8,1;]" ..
-	"list[current_player;main;0,4.75;8,3;8]" ..
+	default.get_hotbar_bg(0,3) ..
+	"list[current_name;armor;3,0.5;2,2;]" ..
+	"list[current_player;main;0,3;8,1;]" ..
+	"list[current_player;main;0,4.25;8,3;8]" ..
 	"listring[current_name;armor]" ..
 	"listring[current_player;main]"
 
@@ -41,7 +41,7 @@ local function update_entity(pos)
 		local inv = meta:get_inventory()
 		local yaw = 0
 		if inv then
-			for i=1, 6 do
+			for i=1, 4 do
 				local stack = inv:get_stack("armor", i)
 				if stack:get_count() == 1 then
 					local item = stack:get_name()
@@ -88,7 +88,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		meta:set_string("formspec", armor_stand_formspec)
 		meta:set_string("infotext", "Armor Stand")
 		local inv = meta:get_inventory()
-		inv:set_size("armor", 6)
+		inv:set_size("armor", 4)
 	end,
 	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
@@ -99,12 +99,11 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack)
-		--TODO Add a specific armor_stand group to placeable items
 		local def = stack:get_definition()
 		if def then
 			local groups = def.groups or {}
-			for name, _ in pairs(groups) do
-				if string.find(name, "^armor_") then
+			for _, element in pairs(armor.elements) do
+				if groups["armor_"..element] then
 					return 1
 				end
 			end
