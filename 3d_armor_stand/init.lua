@@ -99,13 +99,11 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack)
-		local def = stack:get_definition()
-		if def then
-			local groups = def.groups or {}
-			for _, element in pairs(armor.elements) do
-				if groups["armor_"..element] then
-					return 1
-				end
+		local def = stack:get_definition() or {}
+		local groups = def.groups or {}
+		for _, element in pairs(armor.elements) do
+			if groups["armor_"..element] then
+				return 1
 			end
 		end
 		return 0
