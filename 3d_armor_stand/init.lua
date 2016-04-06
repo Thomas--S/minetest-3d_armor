@@ -79,7 +79,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5,-0.5,-0.5, 0.5,1.5,0.5}
+		fixed = {-0.5,-0.5,-0.5, 0.5,1.4,0.5}
 	},
 	groups = {choppy=2, oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
@@ -117,7 +117,7 @@ minetest.register_entity("3d_armor_stand:armor_entity", {
 	visual = "mesh",
 	mesh = "3d_armor_entity.obj",
 	visual_size = {x=1, y=1},
-	collisionbox = {-0.3,-0.3,-0.3, 0.3,1.5,0.3},
+	collisionbox = {-0.1,-0.4,-0.1, 0.1,1.3,0.1},
 	textures = {"3d_armor_trans.png"},
 	on_activate = function(self)
 		local pos = self.object:getpos()
