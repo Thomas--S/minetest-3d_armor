@@ -98,6 +98,19 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	after_place_node = function(pos)
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
 	end,
+	allow_metadata_inventory_put = function(pos, listname, index, stack)
+		--TODO Add a specific armor_stand group to placeable items
+		local def = stack:get_definition()
+		if def then
+			local groups = def.groups or {}
+			for name, _ in pairs(groups) do
+				if string.find(name, "^armor_") then
+					return 1
+				end
+			end
+		end
+		return 0
+	end,
 	on_metadata_inventory_move = function(pos)
 		update_entity(pos)
 	end,
