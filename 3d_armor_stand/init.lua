@@ -2,12 +2,12 @@ local armor_stand_formspec = "size[8,7.5]" ..
 	default.gui_bg ..
 	default.gui_bg_img ..
 	default.gui_slots ..
+	default.get_hotbar_bg(0,3.5) ..
 	"list[current_name;armor;3,0;2,3;]" ..
 	"list[current_player;main;0,3.5;8,1;]" ..
 	"list[current_player;main;0,4.75;8,3;8]" ..
 	"listring[current_name;armor]" ..
-	"listring[current_player;main]" ..
-	default.get_hotbar_bg(0,3.5)
+	"listring[current_player;main]"
 
 local function update_entity(pos)
 	local object = nil
