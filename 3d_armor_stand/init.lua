@@ -3,11 +3,18 @@ local armor_stand_formspec = "size[8,7]" ..
 	default.gui_bg_img ..
 	default.gui_slots ..
 	default.get_hotbar_bg(0,3) ..
-	"list[current_name;armor;3,0.5;2,2;]" ..
+	"list[current_name;armor_head;3,0.5;1,1;]" ..
+	"list[current_name;armor_torso;4,0.5;1,1;]" ..
+	"list[current_name;armor_legs;3,1.5;1,1;]" ..
+	"list[current_name;armor_feet;4,1.5;1,1;]" ..
+	"image[3,0.5;1,1;3d_armor_stand_head.png]" ..
+	"image[4,0.5;1,1;3d_armor_stand_torso.png]" ..
+	"image[3,1.5;1,1;3d_armor_stand_legs.png]" ..
+	"image[4,1.5;1,1;3d_armor_stand_feet.png]" ..
 	"list[current_player;main;0,3;8,1;]" ..
-	"list[current_player;main;0,4.25;8,3;8]" ..
-	"listring[current_name;armor]" ..
-	"listring[current_player;main]"
+	"list[current_player;main;0,4.25;8,3;8]"
+
+local elements = {"head", "torso", "legs", "feet"}
 
 local function update_entity(pos)
 	local object = nil
@@ -41,8 +48,8 @@ local function update_entity(pos)
 		local inv = meta:get_inventory()
 		local yaw = 0
 		if inv then
-			for i=1, 4 do
-				local stack = inv:get_stack("armor", i)
+			for _, element in pairs(elements) do
+				local stack = inv:get_stack("armor_"..element, 1)
 				if stack:get_count() == 1 then
 					local item = stack:get_name() or ""
 					local def = stack:get_definition() or {}
@@ -88,12 +95,19 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 		meta:set_string("formspec", armor_stand_formspec)
 		meta:set_string("infotext", "Armor Stand")
 		local inv = meta:get_inventory()
-		inv:set_size("armor", 4)
+		for _, element in pairs(elements) do
+			inv:set_size("armor_"..element, 1)
+		end
 	end,
 	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return inv:is_empty("armor")
+		for _, element in pairs(elements) do
+			if not inv:is_empty("armor_"..element) then
+				return false
+			end
+		end
+		return true
 	end,
 	after_place_node = function(pos)
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
@@ -101,15 +115,13 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	allow_metadata_inventory_put = function(pos, listname, index, stack)
 		local def = stack:get_definition() or {}
 		local groups = def.groups or {}
-		for _, element in pairs(armor.elements) do
-			if groups["armor_"..element] then
-				return 1
-			end
+		if groups[listname] then
+			return 1
 		end
 		return 0
 	end,
-	on_metadata_inventory_move = function(pos)
-		update_entity(pos)
+	allow_metadata_inventory_move = function(pos)
+		return 0
 	end,
     on_metadata_inventory_put = function(pos)
 		update_entity(pos)
